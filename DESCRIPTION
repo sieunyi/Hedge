@@ -1,0 +1,14 @@
+Package: Hedge
+Title: "Hedge" analyzes whether futures are an effective tool for hedging and how effective they are based on the calculated optimal hedge ratio.
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Shi eun",
+           family = "Lee",
+           role = c("aut", "cre"),
+           email = "first.last@example.com")
+Description: What the package does (one paragraph).
+License: GPL (>=3)
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
