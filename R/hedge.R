@@ -3,11 +3,11 @@
 
 x = matrix(rnorm(80), 40, 4)
 
-# a function that calculates minimum variance hedge ratio
-mvhr <- function(x, WinLen,  ){
+mvhr <- function(s, f, WinLen){
 
   # drop the observation with NaN values
   x <- complete.cases(x)
+  # Check the compatibility of WinLen
   if (WinLen <= 0){
     stop("Window Length should be positive")
   }
@@ -23,13 +23,15 @@ mvhr <- function(x, WinLen,  ){
   adf.test(ld_fp)
 
 
-  # Minimum variance Hedge ratio
+# Minimum variance Hedge ratio
 #  WinLen = 15       # window length
   OoSLen = WinLen       # out of sample
   nObs = size(ld_sp, 1)    # Number of windows
   nFut = size(ld_fp, 2)      # Number of futures contracts
   nWin = nObs - WinLen - OoSLen + 1   # Total number of windows
-  HR = zeros(nWin, nFut)       # Array for hedge ratios
+
+# construct an empty storage for HR
+  HR = zeros(nWin, nFut)
 
   for (iWin in 1:nWin){
   histSpot = ld_btcs(iWin:iWin+WinLen-1,:)
