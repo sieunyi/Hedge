@@ -37,45 +37,46 @@ mvhr <- function(x, WinLen) {
 
   # Minimum variance Hedge ratio
   # WinLen = 15       # window length
-  OoSLen <- WinLen # out of sample
-  nObs <- nrow(ld_sp) # Number of windows
-  nFut <- ncol(ld_fp) # Number of futures contracts
-  nWin <- nObs - WinLen - OoSLen + 1 # Total number of windows
+  # out of sample
+  OoSLen <- WinLen
+  # Number of windows
+  nObs <- nrow(ld_sp)
+  # Number of futures contracts
+  nFut <- ncol(ld_fp)
+  # Total number of windows
+  nWin <- nObs - WinLen - OoSLen + 1
 
   # construct an empty storage for HR, history data
   HR <- matrix(0, nrow = nWin, ncol = nFut)
   histSpot <- matrix(0, nrow = WinLen, ncol = 1)
   histFut <- matrix(0, nrow = WinLen, ncol = 1)
+  HE <- matrix(0, nrow = nWin, ncol = nFut)
+
 
   for (iWin in 1:nWin) {
+    # historical spot price
     histSpot <- ld_sp[iWin:iWin + WinLen - 1, ]
     histFut <- ld_fp[iWin:iWin + WinLen - 1, ]
     HR[iWin, ] <- (sd(histSpot) * cor(histSpot, histFut)) / sd(histFut)
-  }
-  # Performance of the hedge ratio
-  HE <- matrix(0, nrow = nWin, ncol = nFut)
 
   # Out-of-sample is testing the hedge ratio obtained above using samples that were not included in historical data.
-
-  for (iWin in 1:nWin) {
-    # selecting out of sample for spot price
+  # selecting out of sample for spot price
     OoSSpot <- ld_sp[iWin + WinLen:iWin + WinLen + OoSLen - 1, ]
-    # selecting out of sample for futures price
+  # selecting out of sample for futures price
     OoSFut <- ld_fp[iWin + WinLen:iWin + WinLen + OoSLen - 1, ]
-    # getting a modified hedge ratio
+  # getting a modified hedge ratio
     hr_mod <- HR[iWin, ] * fp[iWin + WinLen, ] / sp[iWin + WinLen, ]
-    # profit when h = 0, which is spot price
+  # profit when h = 0, which is spot price
     Prof_nh <- OoSSpot
-    # profit when h is not 0.
-    Prof_h <- repmat(OoSSpot, 1, nFut) - repmat(hr_mod, OoSLen, 1) * OoSFut
+  # profit when h is not 0.
+    Prof_h <- matrix(OoSSpot, length(OoSSpot), nFut, byrow=FALSE) - matrix(hr_mod, OoSLen, 1) * OoSFut
+  # calculate the hedging effectiveness by comparing the variance of the profits for each portfolio.
     var_h[iWin, ] <- var(Prof_h)
     var_nh[iWin, ] <- var(Prof_nh)
     HE[iWin, ] <- (var(Prof_h) - var(Prof_nh)) / var(Prof_nh)
   }
-
   return(list(HR = HR, HE = HE))
 }
-
 #' Semivariance hedge ratio
 #'
 #' @param v price matrix
@@ -87,12 +88,22 @@ mvhr <- function(x, WinLen) {
 #' @examples
 semivar <- function(v, w) {
   meanV <- tcrossprod(w, v)
-  SV <- tcrossprod(w, (max(repmat(meanV, size(v, 1), 1) - v, 0))^2)
+  SV <- tcrossprod(w, (max(matrix(meanV, size(v, 1), 1) - v, 0))^2)
   return(SV)
 }
 
 
-svhr <- function(x, WinLen) {
+
+#' Semi variance hedge ratio and its effectiveness
+#'
+#' @param x Inputs x is a raw data consists of spot price in the first column and futures prices from the second column.
+#' @param WinLen Length of window
+#'
+#' @return
+#' @export
+#'
+#' @examples
+svhr <- function(x, WinLen){
   # initialize the matrix
   HR0 <- 1
   HR_sv <- matrix(0, nWin, nFut)
@@ -109,10 +120,11 @@ svhr <- function(x, WinLen) {
     # semivariance with no hedging
     sv_nh <- semivar(OoSSpot, wOoS)
 
-    #  for (iFut in 1: nFut){
-    #   SVObj = (h)SemiVar(OoSSpot - h*(fp(iWin+WinLen,iFut)/btcs(iWin+WinLen))*OoSFut(:,iFut),wHist)
-    #   HR_sv[iWin,iFut] = fminsearch(SVObj,HR0)
-    #  }
+  for (iFut in 1: nFut){
+    v = OoSSpot - h*(fp(iWin+WinLen,iFut)/btcs(iWin+WinLen))*OoSFut[,iFut]
+    SVObj = SemiVar(v,wHist)
+    HR_sv[iWin,iFut] = fminsearch(SVObj,HR0, minimize=TRUE)
+    }
 
     Prof_h_sv <- repmat(OoSSpot, 1, nFut) - repmat(HR_sv(iWin, ) * (fp(iWin + WinLen, ) / btcs(iWin + WinLen)), OoSLen, 1) * OoSFut
     sv_h <- SemiVar(Prof_h_sv, wOoS)
