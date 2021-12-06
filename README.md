@@ -1,32 +1,63 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # Hedge
 
-Siun Lee
+<!-- badges: start -->
 
-## Intended Use of This Package
-"Hedge” is a package to analyze whether futures are an effective tool for hedging and how effective they are based on the calculated optimal hedge ratio. Investors want to minimize their risk of returns and hedging with futures price is one common way to offset the price volatility due to their high correlation. The optimal hedge ratio is calculated through minimizing the semi-variance of investors’ return, a method to derive the downside risk reducing. While the variance measures the volatility of the asset returns, semi-variance only considers the negative fluctuations of the returns neutralizing all values above the mean, or above an investor’s target return. After obtaining the optimal hedge ratio, hedging effectiveness is going to be calculated by comparing the two strategies of ”Hedging” and ”No hedging” for the portfolio. For the initial version of this package only considers "single commodity" hedging.
+[![R-CMD-check](https://github.com/sieunyi/Hedge/workflows/R-CMD-check/badge.svg)](https://github.com/sieunyi/Hedge/actions)
+<!-- badges: end -->
 
+The goal of Hedge is to …
 
 ## Installation
 
-To install this package, copy and paste the code below into your console:
-```r
-library(devtools)
-devtools::install_github("sieunyi/Hedge", build = TRUE, build_opts = c("--no-resave-data", "--no-manual"))
+You can install the released version of Hedge from
+[CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("Hedge")
 ```
 
-## Usage
+And the development version from [GitHub](https://github.com/) with:
 
-To use this package, copy and paste the code below into your console:
-```r
+``` r
+# install.packages("devtools")
+devtools::install_github("sieunyi/Hedge")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+``` r
 library(Hedge)
+## basic example code
 ```
 
-### Prediction Plot for Spline Terms
+What is special about using `README.Rmd` instead of just `README.md`?
+You can include R chunks like so:
 
-To properly utilize this package, you first need to import data that consist of spot and futures price.
-```r
-HEIdata = read.csv(paste(getwd(),"/data/fxdata.csv", sep = ''), header = TRUE)
+``` r
+summary(cars)
+#>      speed           dist       
+#>  Min.   : 4.0   Min.   :  2.00  
+#>  1st Qu.:12.0   1st Qu.: 26.00  
+#>  Median :15.0   Median : 36.00  
+#>  Mean   :15.4   Mean   : 42.98  
+#>  3rd Qu.:19.0   3rd Qu.: 56.00  
+#>  Max.   :25.0   Max.   :120.00
 ```
 
-### WHAT'S LEFT FOR THE REMAINDER OF THE PROJECT
-I still need to work on my functions to be run without errors in R. I want to make test.R part more rigorously with visual example. If time's allowed, I would like to work on vignette.  
+You’ll still need to render `README.Rmd` regularly, to keep `README.md`
+up-to-date. `devtools::build_readme()` is handy for this. You could also
+use GitHub Actions to re-render `README.Rmd` every time you push. An
+example workflow can be found here:
+<https://github.com/r-lib/actions/tree/master/examples>.
+
+You can also embed plots, for example:
+
+<img src="man/figures/README-pressure-1.png" width="100%" />
+
+In that case, don’t forget to commit and push the resulting figure
+files, so they display on GitHub and CRAN.
