@@ -6,24 +6,6 @@
 #' @return return(HR <- matrix size 언급해주기)
 #' @export
 #' @references
-#' Clarke and Kovatchev (2009) Statistical Tools to
-#' Analyze Continuous Glucose Monitor Data,
-#' \emph{Diabetes Technology and Therapeutics}
-#' \strong{11} S45-S54,
-#' \doi{10.1089/dia.2008.0138}.
-#' Prices of 50,000 round cut diamonds.
-#'
-#' A dataset containing the prices and other attributes of almost 54,000 diamonds.
-#'
-#'
-#' @format A data frame with 53940 rows and 10 variables:
-#' \describe{
-#' \item{price}{price, in US dollars}
-#' \item{carat}{weight of the diamond, in carats}
-#' ...
-#' }
-#' @source \url{http://www.diamondse.info/}
-"diamonds"
 #'
 #' @examples
 #' x <- matrix(rnorm(100), 50, 2)
@@ -69,6 +51,8 @@ mvhr <- function(x, WinLen) {
   histSpot <- matrix(0, nrow = WinLen, ncol = 1)
   histFut <- matrix(0, nrow = WinLen, ncol = 1)
   HE <- matrix(0, nrow = nWin, ncol = nFut)
+  var_h <- matrix(0, nrow = nWin, ncol = nFut)
+    var_nh <- matrix(0, nrow = nWin, ncol = nFut)
 
 
   for (iWin in 1:nWin) {
@@ -88,7 +72,7 @@ mvhr <- function(x, WinLen) {
     # prof_nh is length(WinLen) column vector when h = 0, which is equal to spot price.
     Prof_nh <- OoSSpot
     # prof_h is length(WinLen) x nFut matrix when h is not 0.
-    Prof_h <- matrix(OoSSpot, length(OoSSpot), nFut, byrow = FALSE) - (matrix(hr_mod, OoSLen, 1) * as.matrix(OoSFut))
+    Prof_h <- matrix(OoSSpot, length(OoSSpot), nFut, byrow = FALSE) - as.numeric(matrix(hr_mod, OoSLen, 1)) * as.matrix(OoSFut)
     # calculate the hedging effectiveness by comparing the variance of the profits for each portfolio.
     var_h[iWin, ] <- var(Prof_h)
     var_nh[iWin, ] <- var(Prof_nh)
@@ -109,9 +93,12 @@ mvhr <- function(x, WinLen) {
 #' @export
 #'
 #' @examples
+#' w
+#' v
+#' semivar(v,w)
 semivar <- function(v, w) {
-  meanV <- crossprod(w, v)
-  SV <- crossprod(w, (pmax(matrix(meanV, length(meanV), 1) - v, 0))^2)
+  meanV <- as.vector(crossprod(w, v))
+  SV <- crossprod(w, (pmax(meanV - v, 0))^2)
   return(SV) #scalar
 }
 
@@ -127,7 +114,7 @@ semivar <- function(v, w) {
 #' @examples
 svhr <- function(x, WinLen) {
   # initialize the matrix
-  HR0 <- 1
+  #  HR0 <- 1
   HR_sv <- matrix(0, nWin, nFut)
   HE_sv <- matrix(0, nWin, nFut)
   # out of sample
@@ -151,14 +138,14 @@ svhr <- function(x, WinLen) {
     OoSSpot <- ld_sp[iWin + WinLen:iWin + WinLen + OoSLen - 1, ]
     OoSFut <- ld_fp[iWin + WinLen:iWin + WinLen + OoSLen - 1, ]
 
+    for (iFut in 1:nFut) {
+      SVObj <- function(h) {semivar(matrix(as.numeric(OoSSpot - h * (fp[iWin + WinLen, iFut] / sp[iWin + WinLen, ]) * as.matrix(OoSFut, nrow = WinLen)[, iFut]), nrow=WinLen, 1), wHist)}
+      HR_sv[iWin, iFut] <- optimize(SVObj, interval = c(-10, 10), maximum = FALSE)
+    }
 
-   # for (iFut in 1:nFut) {
-  #    SVObj <- @(h)semivar(OoSSpot - h * (fp[iWin + WinLen, iFut] / sp[iWin + WinLen, ]) * OoSFut[, iFut], wHist)
-  #    HR_sv[iWin, iFut] <- fminsearch(SVObj, HR0, minimize = TRUE)
-  #  }
-   # Prof_h_sv <- matrix(OoSSpot, length(OoSSpot), nFut) - matrix(HR_sv[iWin, ] * (fp[iWin + WinLen, ] / sp[iWin + WinLen, ]), length(OoSSpot), nFut) * as.matrix(OoSFut)
-  #  sv_h <- semivar(Prof_h_sv, wOoS)
-  #  HE_sv[iWin, ] <- (sv_h - sv_nh) / (sv_nh)
-  #}
+    Prof_h_sv <- matrix(OoSSpot, length(OoSSpot), nFut) - as.numeric(matrix(HR_sv[iWin, ] * (fp[iWin + WinLen, ] / sp[iWin + WinLen, ]), length(OoSSpot), nFut)) * as.matrix(OoSFut)
+    sv_h <- semivar(Prof_h_sv, wOoS)
+    HE_sv[iWin, ] <- (sv_h - sv_nh) / (sv_nh)
+  }
   return(HR_sv = HR_sv, HE_sv = HE_sv)
 }
