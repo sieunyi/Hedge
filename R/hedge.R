@@ -152,13 +152,13 @@ svhr <- function(x, WinLen) {
     OoSFut <- ld_fp[iWin + WinLen:iWin + WinLen + OoSLen - 1, ]
 
 
-    for (iFut in 1:nFut) {
-      SVObj <- @(h)semivar(OoSSpot - h * (fp[iWin + WinLen, iFut] / sp[iWin + WinLen, ]) * OoSFut[, iFut], wHist)
-      HR_sv[iWin, iFut] <- fminsearch(SVObj, HR0, minimize = TRUE)
-    }
-    Prof_h_sv <- matrix(OoSSpot, length(OoSSpot), nFut) - matrix(HR_sv[iWin, ] * (fp[iWin + WinLen, ] / sp[iWin + WinLen, ]), length(OoSSpot), 1) * as.matrix(OoSFut)
-    sv_h <- semivar(Prof_h_sv, wOoS)
-    HE_sv[iWin, ] <- (sv_h - sv_nh) / (sv_nh)
-  }
+   # for (iFut in 1:nFut) {
+  #    SVObj <- @(h)semivar(OoSSpot - h * (fp[iWin + WinLen, iFut] / sp[iWin + WinLen, ]) * OoSFut[, iFut], wHist)
+  #    HR_sv[iWin, iFut] <- fminsearch(SVObj, HR0, minimize = TRUE)
+  #  }
+   # Prof_h_sv <- matrix(OoSSpot, length(OoSSpot), nFut) - matrix(HR_sv[iWin, ] * (fp[iWin + WinLen, ] / sp[iWin + WinLen, ]), length(OoSSpot), nFut) * as.matrix(OoSFut)
+  #  sv_h <- semivar(Prof_h_sv, wOoS)
+  #  HE_sv[iWin, ] <- (sv_h - sv_nh) / (sv_nh)
+  #}
   return(HR_sv = HR_sv, HE_sv = HE_sv)
 }
