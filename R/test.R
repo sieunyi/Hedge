@@ -4,8 +4,8 @@ fxdata <- read_csv("data/fxdata.csv")
 x <-fxdata
 
 # obtain the hr and he when WinLen =15
-mvhr <- function(x, WinLen=15)
-
+result <- mvhr(x, WinLen=15)
+plot(result$HE)
 
   ### to do
 

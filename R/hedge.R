@@ -126,8 +126,6 @@ svhr <- function(x, WinLen) {
   # Total number of windows
   nWin <- nObs - WinLen - OoSLen + 1
 
-  # semivariance with no hedging
-  sv_nh <- semivar(OoSSpot, wOoS)
 
   for (iWin in 1:nWin) {
     histSpot <- ld_sp[iWin:iWin + WinLen - 1, ]
@@ -139,9 +137,13 @@ svhr <- function(x, WinLen) {
     OoSFut <- ld_fp[iWin + WinLen:iWin + WinLen + OoSLen - 1, ]
 
     for (iFut in 1:nFut) {
-      SVObj <- function(h) {semivar(matrix(as.numeric(OoSSpot - h * (fp[iWin + WinLen, iFut] / sp[iWin + WinLen, ]) * as.matrix(OoSFut, nrow = WinLen)[, iFut]), nrow=WinLen, 1), wHist)}
-      HR_sv[iWin, iFut] <- optimize(SVObj, interval = c(-10, 10), maximum = FALSE)
+      SVObj <- function(h) semivar(matrix(as.numeric(OoSSpot - h * (fp[iWin + WinLen, iFut] / sp[iWin + WinLen, ]) * as.matrix(OoSFut, nrow = WinLen)[, iFut]), nrow=WinLen, 1), wHist)
+      result <- optimize(SVObj, interval = c(-10, 10), maximum = FALSE)
+      HR_sv <- result$minimum
     }
+
+    # semivariance with no hedging
+    sv_nh <- semivar(OoSSpot, wOoS)
 
     Prof_h_sv <- matrix(OoSSpot, length(OoSSpot), nFut) - as.numeric(matrix(HR_sv[iWin, ] * (fp[iWin + WinLen, ] / sp[iWin + WinLen, ]), length(OoSSpot), nFut)) * as.matrix(OoSFut)
     sv_h <- semivar(Prof_h_sv, wOoS)
