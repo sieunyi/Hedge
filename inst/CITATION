@@ -2,14 +2,14 @@ citHeader("To cite Hedge in publications use:")
 
 citEntry(
   entry    = "Article",
-  title    = ,
-  author   = ,
-  journal  = ,
-  year     = ,
-  volume   = ,
-  number   = ,
-  pages    = ,
-  url      = ,
+  title    = Market volatility and the dynamic hedging of multi-commodity price risk,
+  author   = Gabriel J. Power, Dmitry V. Vedenov, David P. Anderson & Steven Klose ,
+  journal  = Applied Economics,
+  year     = 2013,
+  volume   = 45,
+  number   = 27,
+  pages    = 3891-3903,
+  url      = https://doi.org/10.1080/00036846.2012.736942,
   textVersion = paste(
 
   )
