@@ -43,14 +43,32 @@ that you want to calculate the hedge ratio with. Next, name this data
 set as x.
 
 ``` r
-load("~/new folder/Hedge/data/DATAOBJECT.rda")
-spot_price = DATAOBJECT$...3
-futures_price = DATAOBJECT$...4
+data(fx)
+spot_price = fx$...1
+futures_price = fx$...2
 x = cbind(spot_price, futures_price)
 ```
 
 Finally, call the function within the package defining the window length
 you want to compare.
+
+``` r
+
+## basic example code
+WinLen = 15
+ out1 <- mvhr(x, WinLen)
+ out2 <- svhr(x, WinLen) 
+```
+
+<img src="man/figures/README-pressure-1.png" width="100%" />
+
+``` r
+# compare hedge ratio
+plot(out2$HR_sv, type= 'l', col=1)
+lines(out1$HE, type='l', col=4)
+```
+
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
 In that case, don’t forget to commit and push the resulting figure
 files, so they display on GitHub and CRAN.

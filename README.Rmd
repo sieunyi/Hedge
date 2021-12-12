@@ -48,14 +48,33 @@ library(Hedge)
 
 To properly utilize this package, you first need to import two sets of data: first column with spot price, second column with futures price that you want to calculate the hedge ratio with. Next, name this data set as x.  
 ```{r data}
-load("~/new folder/Hedge/data/DATAOBJECT.rda")
-spot_price = DATAOBJECT$...3
-futures_price = DATAOBJECT$...4
+data(fx)
+spot_price = fx$...1
+futures_price = fx$...2
 x = cbind(spot_price, futures_price)
 ```
 
 Finally, call the function within the package defining the window length you want to compare. 
 ```{r}
+
+## basic example code
+WinLen = 15
+ out1 <- mvhr(x, WinLen)
+ out2 <- svhr(x, WinLen) 
+```
+
+
+
+```{r pressure, echo = FALSE}
+# compare hedging effectiveness
+plot(out2$HE_sv, type = 'l', col=1)
+lines(out1$HE, type='l', col=3)
+
+```
+```{r}
+# compare hedge ratio
+plot(out2$HR_sv, type= 'l', col=1)
+lines(out1$HE, type='l', col=4)
 
 ```
 

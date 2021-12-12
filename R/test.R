@@ -1,7 +1,6 @@
-library(readr)
-load("~/new folder/Hedge/data/DATAOBJECT.rda")
+load("~/new folder/Hedge/data/fx.rda")
 
-x = cbind(DATAOBJECT$...3, DATAOBJECT$...4)
+x = cbind(fx$...1, fx$...2)
 
 # obtain the hr and he when WinLen =15
 result <- mvhr(x, WinLen=30)
