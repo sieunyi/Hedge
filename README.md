@@ -8,7 +8,10 @@
 [![R-CMD-check](https://github.com/sieunyi/Hedge/workflows/R-CMD-check/badge.svg)](https://github.com/sieunyi/Hedge/actions)
 <!-- badges: end -->
 
-The goal of Hedge is to …
+The goal of Hedge is to obtain optimal hedge ratios using two different
+methods: one is traditionally used minimum variance hedge ratio, and the
+other one is minimizing the semivariance hedge ratio. Based on obtained
+hedge ratio, the hedging effectiveness is obtained and compared.
 
 ## Installation
 
@@ -32,32 +35,22 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(Hedge)
-## basic example code
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+To properly utilize this package, you first need to import two sets of
+data: first column with spot price, second column with futures price
+that you want to calculate the hedge ratio with. Next, name this data
+set as x.
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+load("~/new folder/Hedge/data/DATAOBJECT.rda")
+spot_price = DATAOBJECT$...3
+futures_price = DATAOBJECT$...4
+x = cbind(spot_price, futures_price)
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/master/examples>.
-
-You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" width="100%" />
+Finally, call the function within the package defining the window length
+you want to compare.
 
 In that case, don’t forget to commit and push the resulting figure
 files, so they display on GitHub and CRAN.

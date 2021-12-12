@@ -7,7 +7,6 @@
 #' \item{HR}{Length(nWin x 1) optimal hedge ratio matrix}
 #' \item{HE}{Length(nWin x 1) hedging effectiveness matrix}
 #' @export
-#' @references
 #'
 #' @examples
 #' x <- matrix(runif(500, min=0, max=10), 500, 2)
@@ -98,29 +97,35 @@ mvhr <- function(x, WinLen) {
 #' @param v length(WinLen x 1) price vector
 #' @param w length(WinLen x 1) column vector for weight
 #'
-#' @return semivariance vector SV
+#' @return semivariance of the input vector, returns a scalar
 #' @export
 #'
 #' @examples
-#' w
-#' v
-#' semivar(v,w)
+#' WinLen=15
+#' w <- (matrix(1, WinLen, 1)) / WinLen
+#' v <- matrix(runif(WinLen, min=0, max=10), WinLen, 1)
+#' semivar(v,w) #return scalar
 semivar <- function(v, w) {
   meanV <- as.vector(crossprod(w, v))
   SV <- crossprod(w, (pmax(meanV - v, 0))^2)
-  return(SV) #scalar
+  return(SV) # return scalar
 }
 
 
 #' Semi variance hedge ratio and its effectiveness
 #' @inheritParams mvhr
-#' @param x Inputs x is a raw data consists of spot price in the first column and futures prices from the second column.
+#' @param x (n x 2) matrix of input that consists of spot price in the first column and futures prices in the second column.
 #' @param WinLen Length of window
 #'
-#' @return
+#' @return (list(HR = HR, HE = HE))
+#' \item{HR}{Length(nWin x 1) optimal hedge ratio matrix}
+#' \item{HE}{Length(nWin x 1) hedging effectiveness matrix}
 #' @export
 #'
 #' @examples
+#' x <- matrix(runif(500, min=0, max=10), 500, 2)
+#' Winlen <- 15
+#' svhr(x, Winlen)
 svhr <- function(x, WinLen) {
 
 
