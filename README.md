@@ -85,5 +85,15 @@ WinLen = 15
  out2 <- svhr(x, WinLen) 
 ```
 
+<img src="man/figures/README-pressure-1.png" width="100%" />
+
+``` r
+# compare hedge ratio
+plot(out2$HR_sv, type= 'l', col=1)
+lines(out1$HE, type='l', col=4)
+```
+
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+
 In that case, don’t forget to commit and push the resulting figure
 files, so they display on GitHub and CRAN.

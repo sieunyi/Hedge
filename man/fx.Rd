@@ -3,7 +3,8 @@
 \docType{data}
 \name{fx}
 \alias{fx}
-\title{minimum variance hedge ratio function}
+\title{EURO/USD exchange rate and futures price of EURO.
+A dataset containing the prices and other attributes of almost 20 years}
 \format{
 A data frame with 5047 rows and 2 variables:
 \describe{
@@ -19,26 +20,8 @@ data(fx)
 WinLen <-15
 x <- fx
 }
-\arguments{
-\item{x}{(n x 2) matrix of input that consists of spot price in the first column and futures prices in the second column.}
-
-\item{WinLen}{Length of window}
-}
-\value{
-(list(HR = HR, HE = HE))
-\item{HR}{Length(nWin x 1) optimal hedge ratio matrix}
-\item{HE}{Length(nWin x 1) hedging effectiveness matrix}
-}
 \description{
-minimum variance hedge ratio function
-}
-\examples{
-data(fx)
-Winlen <- 15
-mvhr(x, Winlen)
-
 EURO/USD exchange rate and futures price of EURO.
 A dataset containing the prices and other attributes of almost 20 years
-
 }
 \keyword{datasets}
