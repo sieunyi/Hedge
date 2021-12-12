@@ -147,7 +147,7 @@ semivar <- function(v, w) {
 #' futures_price = fx$...2
 #' x = cbind(spot_price, futures_price)
 #' Winlen <- 15
-#' mvhr(x, Winlen)
+#' svhr(x, Winlen)
 svhr <- function(x, WinLen) {
 
   # Make the dataset balanced & remove NaN observations
