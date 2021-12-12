@@ -51,9 +51,6 @@ futures_price = fx$...2
 x = cbind(spot_price, futures_price)
 source('~/new folder/Hedge/R/hedge.R', echo=TRUE)
 #> 
-#> > "fx"
-#> [1] "fx"
-#> 
 #> > mvhr <- function(x, WinLen) {
 #> +     x <- na.omit(x)
 #> +     if (WinLen <= 0) {
@@ -61,14 +58,14 @@ source('~/new folder/Hedge/R/hedge.R', echo=TRUE)
 #> +     }
 #> +     p <- n .... [TRUNCATED] 
 #> 
+#> > "fx"
+#> [1] "fx"
+#> 
 #> > semivar <- function(v, w) {
 #> +     meanV <- as.vector(crossprod(w, v))
 #> +     SV <- crossprod(w, (pmax(meanV - v, 0))^2)
 #> +     return(SV)
 #> + }
-#> 
-#> > "fx"
-#> [1] "fx"
 #> 
 #> > svhr <- function(x, WinLen) {
 #> +     x <- na.omit(x)
@@ -88,14 +85,5 @@ WinLen = 15
  out2 <- svhr(x, WinLen) 
 ```
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
-
-``` r
-# compare hedge ratio
-plot(out2$HR_sv, type= 'l', col=1)
-lines(out1$HE, type='l', col=4)
-```
-
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" /> In
-that case, don’t forget to commit and push the resulting figure files,
-so they display on GitHub and CRAN.
+In that case, don’t forget to commit and push the resulting figure
+files, so they display on GitHub and CRAN.
