@@ -6,6 +6,8 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/sieunyi/Hedge/workflows/R-CMD-check/badge.svg)](https://github.com/sieunyi/Hedge/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/sieunyi/Hedge/branch/main/graph/badge.svg)](https://codecov.io/gh/sieunyi/Hedge?branch=main)
 <!-- badges: end -->
 
 The goal of Hedge is to obtain optimal hedge ratios using two different
@@ -47,13 +49,39 @@ data(fx)
 spot_price = fx$...1
 futures_price = fx$...2
 x = cbind(spot_price, futures_price)
+source('~/new folder/Hedge/R/hedge.R', echo=TRUE)
+#> 
+#> > "fx"
+#> [1] "fx"
+#> 
+#> > mvhr <- function(x, WinLen) {
+#> +     x <- na.omit(x)
+#> +     if (WinLen <= 0) {
+#> +         stop("Window Length should be positive")
+#> +     }
+#> +     p <- n .... [TRUNCATED] 
+#> 
+#> > semivar <- function(v, w) {
+#> +     meanV <- as.vector(crossprod(w, v))
+#> +     SV <- crossprod(w, (pmax(meanV - v, 0))^2)
+#> +     return(SV)
+#> + }
+#> 
+#> > "fx"
+#> [1] "fx"
+#> 
+#> > svhr <- function(x, WinLen) {
+#> +     x <- na.omit(x)
+#> +     if (WinLen <= 0) {
+#> +         stop("Window Length should be positive")
+#> +     }
+#> +     p <- n .... [TRUNCATED]
 ```
 
 Finally, call the function within the package defining the window length
 you want to compare.
 
 ``` r
-
 ## basic example code
 WinLen = 15
  out1 <- mvhr(x, WinLen)
@@ -68,7 +96,6 @@ plot(out2$HR_sv, type= 'l', col=1)
 lines(out1$HE, type='l', col=4)
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" /> In
+that case, don’t forget to commit and push the resulting figure files,
+so they display on GitHub and CRAN.

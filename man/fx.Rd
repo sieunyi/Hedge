@@ -7,16 +7,27 @@
 \format{
 A data frame with 5047 rows and 2 variables:
 \describe{
-\item{EURO/USD}{exchange rate}
-\item{EURO futures price}{EURO futures price data}
-...
+\item{...1}{EURO/USD exchange rate}
+\item{...2}{EURO futures price data}
+}
+
+A data frame with 5047 rows and 2 variables:
+\describe{
+\item{...1}{EURO/USD exchange rate}
+\item{...2}{EURO futures price data}
 }
 }
 \source{
 \url{http://www.bloomberg.com/}
+
+\url{http://www.bloomberg.com/}
 }
 \usage{
-fx
+data(fx)
+WinLen <-15
+x <- fx
+
+data(fx)
 }
 \arguments{
 \item{x}{(n x 2) matrix of input that consists of spot price in the first column and futures prices in the second column.}
@@ -27,8 +38,26 @@ fx
 (list(HR = HR, HE = HE))
 \item{HR}{Length(nWin x 1) optimal hedge ratio matrix}
 \item{HE}{Length(nWin x 1) hedging effectiveness matrix}
+
+(list(HR_sv = HR_sv, HE_sv = HE_sv))
+\item{HR_sv}{Length(nWin x 1) optimal hedge ratio matrix}
+\item{HE_sv}{Length(nWin x 1) hedging effectiveness matrix}
 }
 \description{
 minimum variance hedge ratio function
+
+Semi variance hedge ratio and its effectiveness
+}
+\examples{
+data(fx)
+Winlen <- 15
+mvhr(x, Winlen)
+A dataset containing the prices and other attributes of almost 20 years
+
+data(fx)
+Winlen <- 15
+svhr(x, Winlen)
+A dataset containing the prices and other attributes of almost 20 years
+
 }
 \keyword{datasets}

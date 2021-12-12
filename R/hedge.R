@@ -9,20 +9,22 @@
 #' @export
 #' EURO/USD exchange rate and futures price of EURO .
 #'
-#' A dataset containing the prices and other attributes of almost 20 years
-#'
-#' @format A data frame with 5047 rows and 2 variables:
-#' \describe{
-#'   \item{EURO/USD}{exchange rate}
-#'   \item{EURO futures price}{EURO futures price data}
-#'   ...
-#' }
-#' @source \url{http://www.bloomberg.com/}
-"fx"
 #' @examples
 #' data(fx)
 #' Winlen <- 15
 #' mvhr(x, Winlen)
+#' A dataset containing the prices and other attributes of almost 20 years
+#'
+#' @format A data frame with 5047 rows and 2 variables:
+#' \describe{
+#'   \item{...1}{EURO/USD exchange rate}
+#'   \item{...2}{EURO futures price data}
+#' }
+#' @source \url{http://www.bloomberg.com/}
+#' @usage data(fx)
+#' WinLen <-15
+#' x <- fx
+"fx"
 mvhr <- function(x, WinLen) {
 
   # Make the dataset balanced & remove NaN observations
@@ -127,15 +129,26 @@ semivar <- function(v, w) {
 #' @param x (n x 2) matrix of input that consists of spot price in the first column and futures prices in the second column.
 #' @param WinLen Length of window
 #'
-#' @return (list(HR = HR, HE = HE))
-#' \item{HR}{Length(nWin x 1) optimal hedge ratio matrix}
-#' \item{HE}{Length(nWin x 1) hedging effectiveness matrix}
+#' @return (list(HR_sv = HR_sv, HE_sv = HE_sv))
+#' \item{HR_sv}{Length(nWin x 1) optimal hedge ratio matrix}
+#' \item{HE_sv}{Length(nWin x 1) hedging effectiveness matrix}
 #' @export
+#' EURO/USD exchange rate and futures price of EURO .
 #'
 #' @examples
-#' x <- matrix(runif(500, min=0, max=10), 500, 2)
+#' data(fx)
 #' Winlen <- 15
 #' svhr(x, Winlen)
+#' A dataset containing the prices and other attributes of almost 20 years
+#'
+#' @format A data frame with 5047 rows and 2 variables:
+#' \describe{
+#'   \item{...1}{EURO/USD exchange rate}
+#'   \item{...2}{EURO futures price data}
+#' }
+#' @source \url{http://www.bloomberg.com/}
+#' @usage data(fx)
+"fx"
 svhr <- function(x, WinLen) {
 
 

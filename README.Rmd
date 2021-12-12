@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/sieunyi/Hedge/workflows/R-CMD-check/badge.svg)](https://github.com/sieunyi/Hedge/actions)
+[![Codecov test coverage](https://codecov.io/gh/sieunyi/Hedge/branch/main/graph/badge.svg)](https://codecov.io/gh/sieunyi/Hedge?branch=main)
 <!-- badges: end -->
 
 The goal of Hedge is to obtain optimal hedge ratios using two different methods: one is traditionally used minimum variance hedge ratio, and the other one is minimizing the semivariance hedge ratio. Based on obtained hedge ratio, the hedging effectiveness is obtained and compared.  
@@ -52,11 +53,11 @@ data(fx)
 spot_price = fx$...1
 futures_price = fx$...2
 x = cbind(spot_price, futures_price)
+source('~/new folder/Hedge/R/hedge.R', echo=TRUE)
 ```
 
 Finally, call the function within the package defining the window length you want to compare. 
 ```{r}
-
 ## basic example code
 WinLen = 15
  out1 <- mvhr(x, WinLen)
@@ -77,5 +78,4 @@ plot(out2$HR_sv, type= 'l', col=1)
 lines(out1$HE, type='l', col=4)
 
 ```
-
 In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
