@@ -14,7 +14,6 @@ A data frame with 5047 rows and 2 variables:
 }
 \source{
 \url{http://www.bloomberg.com/}
-\usage x <- data(fx)
 }
 \usage{
 fx

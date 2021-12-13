@@ -1,4 +1,9 @@
 .Rproj.user
 .'Rplots.pdf'
-Rplots.pdf
+.Rplots.pdf
 'Rplots.pdf'
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+inst/doc

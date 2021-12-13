@@ -8,7 +8,6 @@
 #' \item{HE}{Length(nWin x 1) hedging effectiveness matrix}
 #' @export
 #'
-#'
 #' @examples
 #' data(fx)
 #' spot_price = fx$...1
@@ -20,7 +19,7 @@ mvhr <- function(x, WinLen) {
 
   # Make the dataset balanced & remove NaN observations
   # drop the observation with NaN values
-  x <- na.omit(x)
+  x <- stats::na.omit(x)
   # Check the compatibility of WinLen
   if (WinLen <= 0) {
     stop("Window Length should be positive")
@@ -70,7 +69,7 @@ mvhr <- function(x, WinLen) {
 
     histSpot <- ld_sp[iWin:(iWin + WinLen - 1), ]
     histFut <- ld_fp[iWin:(iWin + WinLen - 1), ]
-    HR[iWin, ] <- (sd(histSpot) * cor(histSpot, histFut)) / sd(histFut)
+    HR[iWin, ] <- (stats::sd(histSpot) * stats::cor(histSpot, histFut)) / stats::sd(histFut)
 
     # Out-of-sample is testing the hedge ratio obtained above using samples that were not included in historical data.
     # selecting out of sample for spot price
@@ -86,9 +85,9 @@ mvhr <- function(x, WinLen) {
     # prof_h is length(WinLen) x nFut matrix when h is not 0.
     Prof_h <- matrix(OoSSpot, length(OoSSpot), nFut, byrow = FALSE) - as.numeric(matrix(hr_mod, OoSLen, 1)) * as.matrix(OoSFut)
     # calculate the hedging effectiveness by comparing the variance of the profits for each portfolio.
-    var_h[iWin, ] <- var(Prof_h)
-    var_nh[iWin, ] <- var(Prof_nh)
-    HE[iWin, ] <- (var(Prof_h) - var(Prof_nh)) / var(Prof_nh)
+    var_h[iWin, ] <- stats::var(Prof_h)
+    var_nh[iWin, ] <- stats::var(Prof_nh)
+    HE[iWin, ] <- (stats::var(Prof_h) - stats::var(Prof_nh)) / stats::var(Prof_nh)
   }
   return(list(HR = HR, HE = HE))
 }
@@ -104,7 +103,6 @@ mvhr <- function(x, WinLen) {
 #'   \item{...2}{EURO futures price data}
 #' }
 #' @source \url{http://www.bloomberg.com/}
-#' @usage x <- data(fx)
 "fx"
 
 
@@ -116,7 +114,6 @@ mvhr <- function(x, WinLen) {
 #'
 #' @return semivariance of the input vector, returns a scalar
 #' @export
-#'
 #' @examples
 #' WinLen=15
 #' w <- (matrix(1, WinLen, 1)) / WinLen
@@ -150,7 +147,7 @@ svhr <- function(x, WinLen) {
 
   # Make the dataset balanced & remove NaN observations
   # drop the observation with NaN values
-  x <- na.omit(x)
+  x <- stats::na.omit(x)
   # Check the compatibility of WinLen
   if (WinLen <= 0) {
     stop("Window Length should be positive")
@@ -206,7 +203,7 @@ svhr <- function(x, WinLen) {
     OoSFut <- as.matrix(ld_fp[(iWin + WinLen):(iWin + WinLen + OoSLen - 1), ])
     for (iFut in 1:nFut) {
       SVObj <- function(h) semivar(matrix(as.numeric(OoSSpot - h * (fp[(iWin + WinLen), iFut] / sp[(iWin + WinLen), ]) * as.matrix(OoSFut, nrow = WinLen)[, iFut]), nrow=WinLen, 1), wHist)
-      result <- optimize(SVObj, interval = c(-10, 10), maximum = FALSE)
+      result <- stats::optimize(SVObj, interval = c(-10, 10), maximum = FALSE)
       HR_sv[iWin, iFut] <- result$minimum
     }
     # semivariance with no hedging
