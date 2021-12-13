@@ -1,5 +1,5 @@
 #' minimum variance hedge ratio function
-#'
+#' @description This function will calculate the single commodity hedge ratio by minimizing the variance of the returns.
 #' @param x (n x 2) matrix of input that consists of spot price in the first column and futures prices in the second column.
 #' @param WinLen Length of window
 #'
@@ -93,7 +93,6 @@ mvhr <- function(x, WinLen) {
 }
 
 
-
 #' EURO/USD exchange rate and futures price of EURO.
 #' A dataset containing the prices and other attributes of almost 20 years
 #'
@@ -107,8 +106,9 @@ mvhr <- function(x, WinLen) {
 
 
 
+
 #' Semivariance hedge ratio
-#'
+#' @description This function will calculate the single commodity hedge ratio by minimizing the semi variance of the returns.
 #' @param v length(WinLen x 1) price vector
 #' @param w length(WinLen x 1) column vector for weight
 #'

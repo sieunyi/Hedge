@@ -15,7 +15,7 @@ semivar(v, w)
 semivariance of the input vector, returns a scalar
 }
 \description{
-Semivariance hedge ratio
+This function will calculate the single commodity hedge ratio by minimizing the semi variance of the returns.
 }
 \examples{
 WinLen=15

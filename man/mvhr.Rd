@@ -17,7 +17,7 @@ mvhr(x, WinLen)
 \item{HE}{Length(nWin x 1) hedging effectiveness matrix}
 }
 \description{
-minimum variance hedge ratio function
+This function will calculate the single commodity hedge ratio by minimizing the variance of the returns.
 }
 \examples{
 data(fx)
