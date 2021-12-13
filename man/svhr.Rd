@@ -25,5 +25,5 @@ spot_price = fx$...1
 futures_price = fx$...2
 x = cbind(spot_price, futures_price)
 Winlen <- 15
-mvhr(x, Winlen)
+svhr(x, Winlen)
 }

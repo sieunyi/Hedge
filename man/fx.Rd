@@ -14,11 +14,10 @@ A data frame with 5047 rows and 2 variables:
 }
 \source{
 \url{http://www.bloomberg.com/}
+\usage x <- data(fx)
 }
 \usage{
-data(fx)
-WinLen <-15
-x <- fx
+fx
 }
 \description{
 EURO/USD exchange rate and futures price of EURO.

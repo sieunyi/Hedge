@@ -17,9 +17,5 @@ Imports:
 Depends: 
     R (>= 2.10)
 Suggests: 
-    na.omit,
-    optimize,
-    sd,
-    var,
     covr,
     aTSA
