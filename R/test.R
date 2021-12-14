@@ -1,16 +1,16 @@
 #load("~/new folder/Hedge/data/fx.rda")
 
-x = cbind(fx$...1, fx$...2)
+#x = cbind(fx$...1, fx$...2)
 
 # obtain the hr and he when WinLen =15
-result <- mvhr(x, WinLen=30)
-plot(result$HE, type = 'l')
-plot(result$HR, type = 'l')
-result_sv <- svhr(x, WinLen=30)
-plot(result_sv$HE_sv, type = 'l', col=1)
-lines(result$HE, type='l', col=2)
+#result <- mvhr(x, WinLen=30)
+#plot(result$HE, type = 'l')
+#plot(result$HR, type = 'l')
+#result_sv <- svhr(x, WinLen=30)
+#plot(result_sv$HE_sv, type = 'l', col=1)
+#lines(result$HE, type='l', col=2)
 
-plot(result_sv$HR_sv, type= 'l')
+#plot(result_sv$HR_sv, type= 'l')
 
 
 ### to do
