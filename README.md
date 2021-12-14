@@ -29,11 +29,11 @@ And the development version from [GitHub](https://github.com/) with:
 ``` r
 # install.packages("devtools")
 devtools::install_github("sieunyi/Hedge")
-#> Skipping install of 'Hedge' from a github remote, the SHA1 (0fbff0ca) has not changed since last install.
+#> Skipping install of 'Hedge' from a github remote, the SHA1 (febea467) has not changed since last install.
 #>   Use `force = TRUE` to force installation
 # For installation with vignette
 devtools::install_github("sieunyi/Hedge", build_vignettes = TRUE)
-#> Skipping install of 'Hedge' from a github remote, the SHA1 (0fbff0ca) has not changed since last install.
+#> Skipping install of 'Hedge' from a github remote, the SHA1 (febea467) has not changed since last install.
 #>   Use `force = TRUE` to force installation
 ```
 
@@ -94,11 +94,16 @@ WinLen = 15
 
 ``` r
 # compare hedge ratio
-plot(out2$HR_sv, type= 'l', col=1)
-lines(out1$HE, type='l', col=4)
+plot(out2$HR_sv, type= 'l', col=1, main = "Hedge ratios")
 ```
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+
+``` r
+plot(out1$HR, type='l', col=4)
+```
+
+<img src="man/figures/README-unnamed-chunk-4-2.png" width="100%" />
 
 In that case, don’t forget to commit and push the resulting figure
 files, so they display on GitHub and CRAN.

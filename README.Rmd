@@ -67,14 +67,14 @@ WinLen = 15
 
 ```{r pressure, echo = FALSE}
 # compare hedging effectiveness
-plot(out2$HE_sv, type = 'l', col=1)
+plot(out2$HE_sv, main = "Hedging effectiveness", type = 'l', col=1)
 lines(out1$HE, type='l', col=3)
 
 ```
 ```{r}
 # compare hedge ratio
-plot(out2$HR_sv, type= 'l', col=1)
-lines(out1$HE, type='l', col=4)
+plot(out2$HR_sv, type= 'l', col=1, main = "Hedge ratios")
+plot(out1$HR, type='l', col=4)
 
 ```
 

@@ -24,8 +24,8 @@ The "Hedge” is a package to analyze whether futures are an effective tool for 
 
 To install the package, copy and past the following code into your R console:
 ```{r setup}
-# library(devtools)
-# devtools::install_github("sieunyi/Hedge")
+ library(devtools)
+ devtools::install_github("sieunyi/Hedge")
 ```
 
 ## Usage
@@ -69,12 +69,12 @@ $$Var(r_h )=Var(r_s )+C^2·h^2·Var(r_f)-2·C·h^*·Cov(r_s,r_f )$$
 The analytical solution of this hedge ratio is  $$ HR_{mv} =\frac{1}{C}*ρ_{sf}*\frac{σ_s}{σ_f} $$
 
 ```{r}
-# for 15 day window hedging
+# for 15 day window, minimum variance hedge ratio
 output1 = mvhr(x, WinLen = 15)
-plot(output1$HR)
-# for 60 day window hedging
+plot(output1$HR, type="l")
+# for 60 day window, minimum variance hedge ratio
 output2 = mvhr(x, WinLen = 60)
-plot(output2$HR)
+plot(output2$HR, type="l")
 ```
 
 
@@ -83,12 +83,12 @@ plot(output2$HR)
 this study compares the hedge ratios that minimize semivariance, a method to derive the down-side risk-reducing. The minimum-variance hedge ratios are implicitly assuming that hedgers are willing to yield upside profits to minimize the total variance (Turvey and Nayak, 2003). However, when making hedging decisions, downside risk may play a significant role achieving potential gains rather than analyzing minimum variance. While the variance measures the volatility, semivariance only considers the negative fluctuations of the returns neutralizing all values above the mean, or above an investor's target return. Hedgers find their optimal hedge ratio through minimizing semivariance of the returns.
 $$HR_{SV} = argmin \int_{-\infty}^{\bar\pi}(\bar\pi - \tilde\pi)^2dF(\tilde\pi)$$
 ```{r}
-# for 15 day window hedging
+# for 15 day window, semivariance hedge ratio
 output3 = svhr(x, WinLen = 15)
-plot(output3$HR)
-# for 60 day window hedging
+plot(output3$HR, type="l", main = "15D Window HR_sv")
+# for 60 day window, semivariance hedge ratio
 output4 = svhr(x, WinLen = 60)
-plot(output4$HR)
+plot(output4$HR, type="l", main = "60D Window HR_sv")
 ```
 
 
@@ -105,13 +105,15 @@ $$HE_{futures}=\frac{Var(r_h )-Var(r_{nh} )}{Var(r_{nh})} $$
 The result implies that when HE is positive, the return variance when hedging became larger compared to the return variance when no hedging. This could mean two things: the risk has increased when hedging and the return shows more scattered values whether they are above or below the mean. With the same token, if the variance of returns(risk) has decreased through hedging compared to no hedging, which would mean the effectiveness of the hedge ratio, its value, will be negative.
 
 ```{r}
+# hedging effectiveness using minimum variance hedge ratio
 output5 = mvhr(x, WinLen = 60)
-plot(output5$HE)
+plot(output5$HE, type="l", main = "Hedging effectiveness MV")
 
 ```
 
 ```{r}
+# hedging effectiveness using semi variance hedge ratio
 output6 = svhr(x, WinLen = 60)
-plot(output6$HE_sv)
+plot(output6$HE_sv, type="l", main = "Hedging effectiveness SV")
 ```
 
