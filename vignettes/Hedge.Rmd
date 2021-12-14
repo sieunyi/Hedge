@@ -1,0 +1,117 @@
+---
+title: "Hedge"
+author: "Shi eun Lee"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Hedge}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+## Introduction
+The "Hedge” is a package to analyze whether futures are an effective tool for hedging and how effective they are based on the calculated. optimal hedge ratio. Investors want to minimize their risk of investment returns and hedging with futures price is one common way to offset the price volatility due to their high correlation. The optimal hedge ratio is calculated through minimizing the semi-variance of investors’ return, a method to derive the downside risk reducing. While the variance measures the volatility of the asset returns, semi-variance only considers the negative fluctuations of the returns neutralizing all values above the mean, or above an investor’s target return. After obtaining the optimal hedge ratio, hedging effectiveness is going to be calculated by comparing the two strategies of ”Hedging” and ”No hedging” for the portfolio. For the initial version of this package only considers "single commodity" hedging, and a discrete variable. The hedger invest in the commodity and take a short position and close its position on the next day. 
+
+
+## Installation
+
+To install the package, copy and past the following code into your R console:
+```{r setup}
+library(devtools)
+# devtools::install_github("sieunyi/Hedge")
+```
+
+## Usage
+To use the package, first you must load it into the environment:
+```{r}
+library(Hedge)
+```
+
+
+## Data description and preprocessing
+We want to calculate the hedge ratio and see whether this hedge ratio increases effectiveness based on the situation where there is an investor who buys a commodity and wants to hedge with respective futures.
+The dataset consists of two columns where the first column is a spot price and the second column is a futures price.
+```{r}
+data(fx)
+spot_price = fx$...1
+futures_price = fx$...2
+x = cbind(spot_price, futures_price)
+```
+
+## Minimum variance hedge ratio
+First, using mvhr function to obtain the minimum variance hedge ratio. 
+
+The hedger’s objective is to maximize their profits through investment and reduce the risks. The profit at the period t is defined as below based on the assumption that hedgers buy one commodity at spot price (S_t) at time t, and open a short position for the futures. At the period t+1, hedgers sell their  commodity and close the position for the futures on the next day. The return at t is calculated based on this profit by normalizing the profit with spot price at t.
+
+$$\pi_t = (S_{t+1} - S_t) + h*(F_t - F_{t+1})$$
+The simple return when hedging is calculated as below. 
+$$r_t = \frac{\pi_t}{s_t} =\frac{(S_{t+1} - S_t)}{s_t} + h*\frac{(F_t - F_{t+1})}{S_t} $$
+
+, where h* is an optimal hedge ratio.
+Simply the return when there is no hedge is expressed as below.
+
+$$ r_{nh} = \frac{(S_{t+1} - S_t)}{s_t}$$
+
+
+## Minimum variance hedge ratio
+
+Optimal hedge ratios can be obtained through two methods. First is a minimum-variance hedge ratio (h_MV^*), which is calculated through minimizing the variance of the returns (r_h), defined as in the previous section. 
+$$h_{MV}^*=arg  min  Var(r_h )$$
+$$Var(r_h )=Var(r_s )+C^2·h^2·Var(r_f)-2·C·h^*·Cov(r_s,r_f )$$
+
+The analytical solution of this hedge ratio is  $$ HR_{mv} =\frac{1}{C}*ρ_{sf}*\frac{σ_s}{σ_f} $$
+
+```{r}
+# for 15 day window hedging
+output1 = mvhr(x, WinLen = 15)
+plot(output1$HR)
+# for 60 day window hedging
+output2 = mvhr(x, WinLen = 60)
+plot(output2$HR)
+```
+
+
+## Semivariance hedge ratio
+
+this study compares the hedge ratios that minimize semivariance, a method to derive the down-side risk-reducing. The minimum-variance hedge ratios are implicitly assuming that hedgers are willing to yield upside profits to minimize the total variance (Turvey and Nayak, 2003). However, when making hedging decisions, downside risk may play a significant role achieving potential gains rather than analyzing minimum variance. While the variance measures the volatility, semivariance only considers the negative fluctuations of the returns neutralizing all values above the mean, or above an investor's target return. Hedgers find their optimal hedge ratio through minimizing semivariance of the returns.
+$$HR_{SV} = argmin \int_{-\infty}^{\bar\pi}(\bar\pi - \tilde\pi)^2dF(\tilde\pi)$$
+```{r}
+# for 15 day window hedging
+output3 = svhr(x, WinLen = 15)
+plot(output3$HR)
+# for 60 day window hedging
+output4 = svhr(x, WinLen = 60)
+plot(output4$HR)
+```
+
+
+
+
+, where $F(\tilde\pi)$ is the cumulative distribution function of the returns with hedging.
+
+
+## Hedging effectiveness
+As a measure of hedging effectiveness, the variance of the returns was calculated from hedging over the baseline level of returns without hedging. Each return is generated through the out of sample period of shocks incorporating rolling windows. Additionally, it was assumed hedgers hold the contract for 1 day and resell it to calculate the hedging effectiveness.  
+
+$$HE_{futures}=\frac{Var(r_h )-Var(r_{nh} )}{Var(r_{nh})} $$
+
+The result implies that when HE is positive, the return variance when hedging became larger compared to the return variance when no hedging. This could mean two things: the risk has increased when hedging and the return shows more scattered values whether they are above or below the mean. With the same token, if the variance of returns(risk) has decreased through hedging compared to no hedging, which would mean the effectiveness of the hedge ratio, its value, will be negative.
+
+```{r}
+output5 = mvhr(x, WinLen = 60)
+plot(output5$HE)
+
+```
+
+```{r}
+output6 = svhr(x, WinLen = 60)
+plot(output6$HE_sv)
+```
+
