@@ -29,15 +29,20 @@ And the development version from [GitHub](https://github.com/) with:
 ``` r
 # install.packages("devtools")
 devtools::install_github("sieunyi/Hedge")
+#> Skipping install of 'Hedge' from a github remote, the SHA1 (0fbff0ca) has not changed since last install.
+#>   Use `force = TRUE` to force installation
+# For installation with vignette
+devtools::install_github("sieunyi/Hedge", build_vignettes = TRUE)
+#> Skipping install of 'Hedge' from a github remote, the SHA1 (0fbff0ca) has not changed since last install.
+#>   Use `force = TRUE` to force installation
 ```
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-``` r
-library(Hedge)
-```
+    ## Example
+    
+    
+    
+    ```r
+    library(Hedge)
 
 To properly utilize this package, you first need to import two sets of
 data: first column with spot price, second column with futures price
@@ -52,11 +57,11 @@ x = cbind(spot_price, futures_price)
 source('~/new folder/Hedge/R/hedge.R', echo=TRUE)
 #> 
 #> > mvhr <- function(x, WinLen) {
-#> +     x <- na.omit(x)
+#> +     x <- stats::na.omit(x)
 #> +     if (WinLen <= 0) {
 #> +         stop("Window Length should be positive")
 #> +     }
-#> +     p <- n .... [TRUNCATED] 
+#> +     .... [TRUNCATED] 
 #> 
 #> > "fx"
 #> [1] "fx"
@@ -68,11 +73,11 @@ source('~/new folder/Hedge/R/hedge.R', echo=TRUE)
 #> + }
 #> 
 #> > svhr <- function(x, WinLen) {
-#> +     x <- na.omit(x)
+#> +     x <- stats::na.omit(x)
 #> +     if (WinLen <= 0) {
 #> +         stop("Window Length should be positive")
 #> +     }
-#> +     p <- n .... [TRUNCATED]
+#> +     .... [TRUNCATED]
 ```
 
 Finally, call the function within the package defining the window length
@@ -93,7 +98,7 @@ plot(out2$HR_sv, type= 'l', col=1)
 lines(out1$HE, type='l', col=4)
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
 In that case, don’t forget to commit and push the resulting figure
 files, so they display on GitHub and CRAN.

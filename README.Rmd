@@ -32,18 +32,19 @@ install.packages("Hedge")
 
 And the development version from [GitHub](https://github.com/) with:
 
-``` r
+```{r}
 # install.packages("devtools")
 devtools::install_github("sieunyi/Hedge")
+# For installation with vignette
+devtools::install_github("sieunyi/Hedge", build_vignettes = TRUE)
+```
+
 ```
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
 library(Hedge)
-
-
 
 ```
 

@@ -24,7 +24,7 @@ The "Hedge” is a package to analyze whether futures are an effective tool for 
 
 To install the package, copy and past the following code into your R console:
 ```{r setup}
-library(devtools)
+# library(devtools)
 # devtools::install_github("sieunyi/Hedge")
 ```
 
