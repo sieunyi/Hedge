@@ -1,4 +1,4 @@
-load("~/new folder/Hedge/data/fx.rda")
+#load("~/new folder/Hedge/data/fx.rda")
 
 x = cbind(fx$...1, fx$...2)
 
