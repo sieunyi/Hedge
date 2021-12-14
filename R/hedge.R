@@ -102,6 +102,7 @@ mvhr <- function(x, WinLen) {
 #'   \item{...2}{EURO futures price data}
 #' }
 #' @source \url{http://www.bloomberg.com/}
+#'
 "fx"
 
 
