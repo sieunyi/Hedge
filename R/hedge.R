@@ -4,8 +4,8 @@
 #' @param WinLen Length of window
 #'
 #' @return (list(HR = HR, HE = HE))
-#' \item{HR}{Length(nWin x 1) optimal hedge ratio matrix}
-#' \item{HE}{Length(nWin x 1) hedging effectiveness matrix}
+#' \item{HR}{Length(nWin x 1) optimal hedge ratio vector over the sample period}
+#' \item{HE}{Length(nWin x 1) hedging effectiveness vector over the sample period}
 #' @export
 #'
 #' @examples
@@ -132,8 +132,8 @@ semivar <- function(v, w) {
 #' @param WinLen Length of window
 #'
 #' @return (list(HR_sv = HR_sv, HE_sv = HE_sv))
-#' \item{HR_sv}{Length(nWin x 1) optimal hedge ratio matrix}
-#' \item{HE_sv}{Length(nWin x 1) hedging effectiveness matrix}
+#' \item{HR_sv}{Length(nWin x 1) optimal hedge ratio vector over the sample period}
+#' \item{HE_sv}{Length(nWin x 1) hedging effectiveness vector over the sample period}
 #' @export
 #'
 #'
