@@ -1,7 +1,7 @@
 #' minimum variance hedge ratio function
 #' @description This function will calculate the single commodity hedge ratio by minimizing the variance of the returns.
 #' @param x (n x 2) matrix of input that consists of spot price in the first column and futures prices in the second column.
-#' @param WinLen Length of window
+#' @param WinLen Length of window, any positive integer
 #'
 #' @return (list(HR = HR, HE = HE))
 #' \item{HR}{Length(nWin x 1) optimal hedge ratio vector over the sample period}
@@ -129,7 +129,7 @@ semivar <- function(v, w) {
 
 #' Semi variance hedge ratio and its effectiveness
 #' @param x (n x 2) matrix of input that consists of spot price in the first column and futures prices in the second column.
-#' @param WinLen Length of window
+#' @param WinLen Length of window, any positive integer
 #'
 #' @return (list(HR_sv = HR_sv, HE_sv = HE_sv))
 #' \item{HR_sv}{Length(nWin x 1) optimal hedge ratio vector over the sample period}
